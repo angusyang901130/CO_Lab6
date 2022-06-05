@@ -63,7 +63,7 @@ float set_associative(string filename, int way, int block_size, int cache_size){
                 cache_tag[row_index][i] = tag;
                 valid[row_index][i] = true;
                 saved = true;
-                break
+                break;
             }
         }
 
@@ -79,7 +79,7 @@ float set_associative(string filename, int way, int block_size, int cache_size){
             // search in used_order, if found one used is stored in set, erase it until set size = 1 
             // if set size == 1, means only one tag left, it is the least recently used tag
             while(st.size() > 1){
-                pos_iter = st.find(*ptr);
+                set<string>::iterator pos_iter = st.find(*ptr);
 
                 if(pos_iter != st.end())
                     st.erase(pos_iter);
@@ -100,7 +100,8 @@ float set_associative(string filename, int way, int block_size, int cache_size){
 
     }
 
-    print(total_num);
+    file.close();
+    cout << total_num << endl;
     
     return (float)hit_num/total_num;
 }
