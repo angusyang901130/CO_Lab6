@@ -28,7 +28,7 @@ float direct_mapped(string filename, int block_size, int cache_size){
     vector<bool> valid(block_num, false);
 
     ifstream file;
-    file.open(filename, 'r');
+    file.open(filename);
     string addr;
 
     while(file >> addr){

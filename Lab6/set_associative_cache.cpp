@@ -32,7 +32,7 @@ float set_associative(string filename, int way, int block_size, int cache_size){
     
     // read file
     ifstream file;
-    file.open(filename, 'r');
+    file.open(filename);
     string addr;
     while(file >> addr){
         total_num += 1;
