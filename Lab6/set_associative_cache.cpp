@@ -4,6 +4,7 @@
 #include <vector>
 #include <fstream>
 #include <set>
+#include <cmath>
 
 float set_associative(string filename, int way, int block_size, int cache_size){
     int total_num = 0;
@@ -15,7 +16,7 @@ float set_associative(string filename, int way, int block_size, int cache_size){
     //cout << "block_num" << block_num << endl;
     int row_num = block_num / way;
     
-    int tag_bit = 32 - bitnum(row_num) - bitnum(block_size);
+    int tag_bit = 32 - log2(row_num) - log2(block_size);
     
     
     vector< vector<string> > cache_tag(row_num, vector<string>(way, ""));
@@ -42,9 +43,9 @@ float set_associative(string filename, int way, int block_size, int cache_size){
             addr_bin += bin;
         }
 
-        // take address [tag_bit:tag_bit+bitnum(rownum)]
+        // take address [tag_bit:tag_bit+log2(rownum)]
         string tag = addr_bin.substr(0, tag_bit);
-        int row_index = bin2dec(addr_bin.substr(tag_bit, bitnum(row_num)));
+        int row_index = bin2dec(addr_bin.substr(tag_bit, log2(row_num)));
         bool saved = false;
 
         // if saved in cache, no need to replace
@@ -69,7 +70,7 @@ float set_associative(string filename, int way, int block_size, int cache_size){
             
             // put stored tag of cache_tag[row_index] into set 
             for(int i = 0; i < way; i++)
-                st.insert(cache_tag[row_index][i] + addr_bin.substr(tag_bit, bitnum(row_num)));
+                st.insert(cache_tag[row_index][i] + addr_bin.substr(tag_bit, log2(row_num)));
 
             // search in used_order, if found one used is stored in set, erase it until set size = 1 
             // if set size == 1, means only one tag left, it is the least recently used tag
@@ -91,7 +92,7 @@ float set_associative(string filename, int way, int block_size, int cache_size){
             }
         }
 
-        used_order.push_back(addr_bin.substr(0, tag_bit + bitnum(row_num)));
+        used_order.push_back(addr_bin.substr(0, tag_bit + log2(row_num)));
 
     }
 

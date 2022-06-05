@@ -4,6 +4,7 @@
 #include <vector>
 #include <fstream>
 #include <set>
+#include <cmath>
 
 float direct_mapped(string filename, int block_size, int cache_size){
 
@@ -13,7 +14,7 @@ float direct_mapped(string filename, int block_size, int cache_size){
     /*write your code HERE*/
     // set up cache table
     int block_num = cache_size / block_size;   
-    int tag_bit = 32 - bitnum(block_num) - bitnum(block_size);
+    int tag_bit = 32 - log2(block_num) - log2(block_size);
     
     vector<string> cache_tag(block_num);
     vector<bool> valid(block_num, false);
@@ -36,7 +37,7 @@ float direct_mapped(string filename, int block_size, int cache_size){
         }
 
         string tag = addr_bin.substr(0, tag_bit);
-        int row_index = bin2dec(addr_bin.substr(tag_bit, bitnum(block_num)));
+        int row_index = bin2dec(addr_bin.substr(tag_bit, log2(block_num)));
 
         if(valid[row_index] && comparer(cache_tag[row_index], tag)){
             hit_num += 1;

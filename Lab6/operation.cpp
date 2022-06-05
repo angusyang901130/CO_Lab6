@@ -1,15 +1,5 @@
 #include "operation.h"
 
-int bitnum(int num){
-    int power = -1;
-    while(num != 0){
-        power += 1;
-        num /= 2;
-    }
-
-    return power;
-}
-
 string hex2bin(char c){
     string result = "";
     switch(c){
